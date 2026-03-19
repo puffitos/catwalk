@@ -1,5 +1,7 @@
 package catwalk
 
+import "strings"
+
 // Type represents the type of AI provider.
 type Type string
 
@@ -105,6 +107,31 @@ func (p *Provider) PrefixModelIDs(prefix string) {
 	}
 	if p.DefaultSmallModelID != "" {
 		p.DefaultSmallModelID = prefix + p.DefaultSmallModelID
+	}
+}
+
+// ApplyBedrockRegion applies the AWS cross-region inference profile prefix
+// for the given region to all model IDs and default model references. For
+// example, a region of "eu-central-1" prepends "eu." so that
+// "anthropic.claude-sonnet-4-6" becomes "eu.anthropic.claude-sonnet-4-6".
+// Regions that do not map to a known prefix are left unchanged.
+func (p *Provider) ApplyBedrockRegion(region string) {
+	p.PrefixModelIDs(bedrockRegionPrefix(region))
+}
+
+// bedrockRegionPrefix returns the cross-region inference profile prefix for a
+// given AWS region (e.g. "eu-central-1" → "eu."), or an empty string when the
+// region does not map to a known prefix.
+func bedrockRegionPrefix(region string) string {
+	switch {
+	case strings.HasPrefix(region, "us-"):
+		return "us."
+	case strings.HasPrefix(region, "eu-"):
+		return "eu."
+	case strings.HasPrefix(region, "ap-"):
+		return "ap."
+	default:
+		return ""
 	}
 }
 
