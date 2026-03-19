@@ -89,6 +89,25 @@ type Model struct {
 	Options                ModelOptions `json:"options"`
 }
 
+// PrefixModelIDs prepends prefix to every model ID in the provider as well
+// as to DefaultLargeModelID and DefaultSmallModelID. This keeps the default
+// model references in sync when a consumer (e.g. crush) adds a cross-region
+// inference profile prefix for Bedrock ("us.", "eu.", "ap.").
+func (p *Provider) PrefixModelIDs(prefix string) {
+	if prefix == "" {
+		return
+	}
+	for i := range p.Models {
+		p.Models[i].ID = prefix + p.Models[i].ID
+	}
+	if p.DefaultLargeModelID != "" {
+		p.DefaultLargeModelID = prefix + p.DefaultLargeModelID
+	}
+	if p.DefaultSmallModelID != "" {
+		p.DefaultSmallModelID = prefix + p.DefaultSmallModelID
+	}
+}
+
 // KnownProviders returns all the known inference providers.
 func KnownProviders() []InferenceProvider {
 	return []InferenceProvider{
