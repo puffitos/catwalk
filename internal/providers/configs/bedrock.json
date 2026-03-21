@@ -18,7 +18,7 @@
       "default_max_tokens": 64000,
       "can_reason": true,
       "supports_attachments": true,
-      "regions": ["us.", "eu.", "jp.", "au.", "global."]
+      "regions": ["us", "eu", "jp", "au", "global"]
     },
     {
       "id": "anthropic.claude-sonnet-4-5-20250929-v1:0",
@@ -31,7 +31,7 @@
       "default_max_tokens": 64000,
       "can_reason": true,
       "supports_attachments": true,
-      "regions": ["us.", "eu.", "jp.", "au.", "apac.", "global."]
+      "regions": ["us", "eu", "jp", "au", "apac", "global"]
     },
     {
       "id": "anthropic.claude-haiku-4-5-20251001-v1:0",
@@ -44,7 +44,7 @@
       "default_max_tokens": 64000,
       "can_reason": false,
       "supports_attachments": true,
-      "regions": ["us.", "eu.", "jp.", "au.", "global."]
+      "regions": ["us", "eu", "jp", "au", "global"]
     },
     {
       "id": "anthropic.claude-opus-4-6-v1",
@@ -57,7 +57,7 @@
       "default_max_tokens": 126000,
       "can_reason": true,
       "supports_attachments": true,
-      "regions": ["us.", "eu.", "au.", "global."]
+      "regions": ["us", "eu", "au", "global"]
     },
     {
       "id": "anthropic.claude-opus-4-5-20251101-v1:0",
@@ -70,7 +70,7 @@
       "default_max_tokens": 64000,
       "can_reason": true,
       "supports_attachments": true,
-      "regions": ["us.", "eu.", "global."]
+      "regions": ["us", "eu", "global"]
     },
     {
       "id": "anthropic.claude-sonnet-4-20250514-v1:0",
@@ -83,7 +83,7 @@
       "default_max_tokens": 64000,
       "can_reason": true,
       "supports_attachments": true,
-      "regions": ["us.", "eu.", "apac.", "global."]
+      "regions": ["us", "eu", "apac", "global"]
     },
     {
       "id": "anthropic.claude-opus-4-20250514-v1:0",
@@ -96,7 +96,7 @@
       "default_max_tokens": 32000,
       "can_reason": true,
       "supports_attachments": true,
-      "regions": ["us."]
+      "regions": ["us"]
     },
     {
       "id": "anthropic.claude-opus-4-1-20250805-v1:0",
@@ -109,7 +109,7 @@
       "default_max_tokens": 32000,
       "can_reason": true,
       "supports_attachments": true,
-      "regions": ["us."]
+      "regions": ["us"]
     }
   ]
 }

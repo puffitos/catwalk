@@ -183,9 +183,9 @@ func bedrockProvider() catwalk.Provider {
 			continue
 		}
 		if prefix != "" && slices.Contains(m.Regions, prefix) {
-			m.ID = prefix + m.ID
+			m.ID = prefix + "." + m.ID
 			resolved = append(resolved, m)
-		} else if slices.Contains(m.Regions, "global.") {
+		} else if slices.Contains(m.Regions, "global") {
 			m.ID = "global." + m.ID
 			resolved = append(resolved, m)
 		}
@@ -204,7 +204,7 @@ func bedrockProvider() catwalk.Provider {
 // ID by scanning the resolved model list for an ID that ends with the bare ID.
 func resolvedID(models []catwalk.Model, bareID, prefix string) string {
 	for _, m := range models {
-		if m.ID == prefix+bareID || m.ID == "global."+bareID {
+		if m.ID == prefix+"."+bareID || m.ID == "global."+bareID {
 			return m.ID
 		}
 	}
@@ -220,15 +220,15 @@ func resolvedID(models []catwalk.Model, bareID, prefix string) string {
 func bedrockRegionPrefix(region string) string {
 	switch {
 	case strings.HasPrefix(region, "us-") || region == "ca-central-1":
-		return "us."
+		return "us"
 	case strings.HasPrefix(region, "eu-"):
-		return "eu."
+		return "eu"
 	case region == "ap-northeast-1":
-		return "jp."
+		return "jp"
 	case region == "ap-southeast-2":
-		return "au."
+		return "au"
 	case strings.HasPrefix(region, "ap-"):
-		return "apac."
+		return "apac"
 	default:
 		return ""
 	}

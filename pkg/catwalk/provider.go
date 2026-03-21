@@ -90,10 +90,10 @@ type Model struct {
 	SupportsImages         bool         `json:"supports_attachments"`
 	Options                ModelOptions `json:"options"`
 	// Regions lists the inference profile prefixes available for this model
-	// (e.g. "us.", "eu.", "global."). Used by providers that require
+	// (e.g. "us", "eu", "global"). Used by providers that require
 	// region-specific model identifiers, such as AWS Bedrock cross-region
 	// inference profiles. The actual inference profile ID is derived by
-	// prepending the prefix to the model ID.
+	// prepending the prefix and a "." separator to the model ID.
 	Regions []string `json:"regions,omitempty"`
 }
 
