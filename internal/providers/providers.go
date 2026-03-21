@@ -195,24 +195,15 @@ func bedrockProvider() catwalk.Provider {
 	}
 	p.Models = resolved
 
-	p.DefaultLargeModelID = resolvedID(p.Models, p.DefaultLargeModelID, prefix)
-	p.DefaultSmallModelID = resolvedID(p.Models, p.DefaultSmallModelID, prefix)
+	// Apply the same prefix logic to the default model references.
+	chosen := prefix
+	if chosen == "" {
+		chosen = "global"
+	}
+	p.DefaultLargeModelID = chosen + "." + p.DefaultLargeModelID
+	p.DefaultSmallModelID = chosen + "." + p.DefaultSmallModelID
 
 	return p
-}
-
-// resolvedID finds the resolved inference profile ID for the given bare model
-// ID by scanning the resolved model list for an ID that ends with the bare ID.
-func resolvedID(models []catwalk.Model, bareID, prefix string) string {
-	for _, m := range models {
-		if m.ID == prefix+"."+bareID || m.ID == "global."+bareID {
-			return m.ID
-		}
-	}
-	if len(models) > 0 {
-		return models[0].ID
-	}
-	return bareID
 }
 
 // bedrockRegionPrefix maps an AWS region to the inference profile prefix used
