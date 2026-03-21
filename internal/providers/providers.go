@@ -5,6 +5,8 @@ import (
 	_ "embed"
 	"encoding/json"
 	"log"
+	"os"
+	"strings"
 
 	"charm.land/catwalk/pkg/catwalk"
 )
@@ -162,7 +164,66 @@ func azureProvider() catwalk.Provider {
 }
 
 func bedrockProvider() catwalk.Provider {
-	return loadProviderFromConfig(bedrockConfig)
+	p := loadProviderFromConfig(bedrockConfig)
+
+	region := os.Getenv("AWS_REGION")
+	if region == "" {
+		region = os.Getenv("AWS_DEFAULT_REGION")
+	}
+
+	prefix := bedrockRegionPrefix(region)
+
+	var filtered []catwalk.Model
+	for _, m := range p.Models {
+		if strings.HasPrefix(m.ID, "global.") ||
+			(prefix != "" && strings.HasPrefix(m.ID, prefix)) {
+			filtered = append(filtered, m)
+		}
+	}
+	p.Models = filtered
+
+	// Update default model references to use the regional variant if
+	// available, otherwise keep the global fallback.
+	if prefix != "" {
+		p.DefaultLargeModelID = preferPrefixed(p.Models, p.DefaultLargeModelID, prefix)
+		p.DefaultSmallModelID = preferPrefixed(p.Models, p.DefaultSmallModelID, prefix)
+	}
+
+	return p
+}
+
+// bedrockRegionPrefix maps an AWS region to the inference profile prefix used
+// by Bedrock cross-region inference. Returns an empty string when the region
+// is unknown or unset, in which case global profiles are used.
+func bedrockRegionPrefix(region string) string {
+	switch {
+	case strings.HasPrefix(region, "us-") || region == "ca-central-1":
+		return "us."
+	case strings.HasPrefix(region, "eu-"):
+		return "eu."
+	case region == "ap-northeast-1":
+		return "jp."
+	case region == "ap-southeast-2":
+		return "au."
+	case strings.HasPrefix(region, "ap-"):
+		return "apac."
+	default:
+		return ""
+	}
+}
+
+// preferPrefixed returns the regional variant of a model ID (e.g.
+// "eu.anthropic.claude-sonnet-4-6") if it exists in the model list, otherwise
+// returns the global variant (e.g. "global.anthropic.claude-sonnet-4-6").
+func preferPrefixed(models []catwalk.Model, globalID, prefix string) string {
+	bare := strings.TrimPrefix(globalID, "global.")
+	regional := prefix + bare
+	for _, m := range models {
+		if m.ID == regional {
+			return regional
+		}
+	}
+	return globalID
 }
 
 func vertexAIProvider() catwalk.Provider {
