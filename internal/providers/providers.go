@@ -3,7 +3,6 @@ package providers
 
 import (
 	_ "embed"
-	"cmp"
 	"encoding/json"
 	"log"
 	"os"
@@ -182,26 +181,43 @@ func bedrockProvider() catwalk.Provider {
 		}
 		// Prefer the regional profile, then fall back to global.
 		// Drop the model if neither is available for this region.
-		chosen := ""
-		for _, candidate := range []string{prefix, "global"} {
-			if candidate != "" && slices.Contains(m.Regions, candidate) {
-				chosen = candidate
-				break
-			}
-		}
-		if chosen != "" {
+		if chosen := inferencePrefix(m.Regions, prefix); chosen != "" {
 			m.ID = chosen + "." + m.ID
 			resolved = append(resolved, m)
 		}
 	}
 	p.Models = resolved
 
-	// Apply the same prefix logic to the default model references.
-	chosen := cmp.Or(prefix, "global")
-	p.DefaultLargeModelID = chosen + "." + p.DefaultLargeModelID
-	p.DefaultSmallModelID = chosen + "." + p.DefaultSmallModelID
+	p.DefaultLargeModelID = inferencePrefix(defaultModelRegions(p.Models, p.DefaultLargeModelID), prefix) + "." + p.DefaultLargeModelID
+	p.DefaultSmallModelID = inferencePrefix(defaultModelRegions(p.Models, p.DefaultSmallModelID), prefix) + "." + p.DefaultSmallModelID
 
 	return p
+}
+
+// inferencePrefix returns the best available prefix for a model given the
+// desired regional prefix, falling back to "global" if the regional one is
+// not available.
+func inferencePrefix(regions []string, prefix string) string {
+	for _, candidate := range []string{prefix, "global"} {
+		if candidate != "" && slices.Contains(regions, candidate) {
+			return candidate
+		}
+	}
+	return ""
+}
+
+// defaultModelRegions returns the Regions slice of the model matching bareID
+// in the resolved model list, so the default model IDs follow the same
+// fallback logic as the models themselves.
+func defaultModelRegions(models []catwalk.Model, bareID string) []string {
+	for _, m := range models {
+		// The model ID has already been resolved (e.g. "eu.anthropic.…"),
+		// so match by suffix against the bare ID.
+		if strings.HasSuffix(m.ID, "."+bareID) {
+			return m.Regions
+		}
+	}
+	return []string{"global"}
 }
 
 // bedrockRegionPrefix maps an AWS region to the inference profile prefix used
