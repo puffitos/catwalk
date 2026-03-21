@@ -11,6 +11,7 @@ import (
 
 	"charm.land/catwalk/pkg/catwalk"
 )
+
 //go:embed configs/openai.json
 var openAIConfig []byte
 
@@ -173,38 +174,32 @@ func bedrockProvider() catwalk.Provider {
 
 	prefix := bedrockRegionPrefix(region)
 
+	chosen := "global"
 	var resolved []catwalk.Model
 	for _, m := range p.Models {
 		if len(m.Regions) == 0 {
 			resolved = append(resolved, m)
 			continue
 		}
-		chosen := "global"
 		if prefix != "" && slices.Contains(m.Regions, prefix) {
 			chosen = prefix
 		}
-		if slices.Contains(m.Regions, chosen) {
-			m.ID = chosen + "." + m.ID
-			resolved = append(resolved, m)
-		}
+		m.ID = chosen + "." + m.ID
+		resolved = append(resolved, m)
+		chosen = "global"
 	}
 	p.Models = resolved
 
-	p.DefaultLargeModelID = modelPrefix(p.Models, p.DefaultLargeModelID)
-	p.DefaultSmallModelID = modelPrefix(p.Models, p.DefaultSmallModelID)
-
-	return p
-}
-
-// modelPrefix finds the resolved inference profile ID for the given bare model
-// ID by scanning the resolved model list.
-func modelPrefix(models []catwalk.Model, bareID string) string {
-	for _, m := range models {
-		if strings.HasSuffix(m.ID, "."+bareID) {
-			return m.ID
+	for _, m := range p.Models {
+		if strings.HasSuffix(m.ID, "."+p.DefaultLargeModelID) {
+			p.DefaultLargeModelID = m.ID
+		}
+		if strings.HasSuffix(m.ID, "."+p.DefaultSmallModelID) {
+			p.DefaultSmallModelID = m.ID
 		}
 	}
-	return "global." + bareID
+
+	return p
 }
 
 // bedrockRegionPrefix maps an AWS region to the inference profile prefix used
