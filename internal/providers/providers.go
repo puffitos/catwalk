@@ -173,27 +173,28 @@ func bedrockProvider() catwalk.Provider {
 
 	prefix := bedrockRegionPrefix(region)
 
-	// Resolve each model's ID to the correct inference profile.
-	// Prefer the regional profile, fall back to global, drop the model if
-	// neither is available for this region.
 	var resolved []catwalk.Model
 	for _, m := range p.Models {
 		if len(m.Regions) == 0 {
 			resolved = append(resolved, m)
 			continue
 		}
-		if prefix != "" && slices.Contains(m.Regions, prefix) {
-			m.ID = prefix + "." + m.ID
-			resolved = append(resolved, m)
-		} else if slices.Contains(m.Regions, "global") {
-			m.ID = "global." + m.ID
+		// Prefer the regional profile, then fall back to global.
+		// Drop the model if neither is available for this region.
+		chosen := ""
+		for _, candidate := range []string{prefix, "global"} {
+			if candidate != "" && slices.Contains(m.Regions, candidate) {
+				chosen = candidate
+				break
+			}
+		}
+		if chosen != "" {
+			m.ID = chosen + "." + m.ID
 			resolved = append(resolved, m)
 		}
-		// No matching region and no global profile — model not available here.
 	}
 	p.Models = resolved
 
-	// Update default model references to match the resolved IDs.
 	p.DefaultLargeModelID = resolvedID(p.Models, p.DefaultLargeModelID, prefix)
 	p.DefaultSmallModelID = resolvedID(p.Models, p.DefaultSmallModelID, prefix)
 
