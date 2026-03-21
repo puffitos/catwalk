@@ -2,6 +2,7 @@ package providers
 
 import (
 	"slices"
+	"strings"
 	"testing"
 )
 
@@ -29,14 +30,14 @@ func TestBedrockProvider_NoRegion(t *testing.T) {
 	p := bedrockProvider()
 
 	for _, m := range p.Models {
-		if !hasPrefix(m.ID, "global.") {
-			t.Errorf("expected only global models without AWS_REGION, got %q", m.ID)
+		if !strings.HasPrefix(m.ID, "global.") {
+			t.Errorf("expected global. inference profile without AWS_REGION, got %q", m.ID)
 		}
 	}
-	if !hasPrefix(p.DefaultLargeModelID, "global.") {
+	if !strings.HasPrefix(p.DefaultLargeModelID, "global.") {
 		t.Errorf("DefaultLargeModelID = %q, want global. prefix", p.DefaultLargeModelID)
 	}
-	if !hasPrefix(p.DefaultSmallModelID, "global.") {
+	if !strings.HasPrefix(p.DefaultSmallModelID, "global.") {
 		t.Errorf("DefaultSmallModelID = %q, want global. prefix", p.DefaultSmallModelID)
 	}
 }
@@ -47,18 +48,15 @@ func TestBedrockProvider_EURegion(t *testing.T) {
 
 	p := bedrockProvider()
 
-	var ids []string
 	for _, m := range p.Models {
-		ids = append(ids, m.ID)
-		if !hasPrefix(m.ID, "eu.") && !hasPrefix(m.ID, "global.") {
-			t.Errorf("unexpected model %q for eu-central-1 (want eu. or global.)", m.ID)
+		if !strings.HasPrefix(m.ID, "eu.") && !strings.HasPrefix(m.ID, "global.") {
+			t.Errorf("unexpected inference profile %q for eu-central-1", m.ID)
 		}
 	}
-
-	if !hasPrefix(p.DefaultLargeModelID, "eu.") {
+	if !strings.HasPrefix(p.DefaultLargeModelID, "eu.") {
 		t.Errorf("DefaultLargeModelID = %q, want eu. prefix", p.DefaultLargeModelID)
 	}
-	if !hasPrefix(p.DefaultSmallModelID, "eu.") {
+	if !strings.HasPrefix(p.DefaultSmallModelID, "eu.") {
 		t.Errorf("DefaultSmallModelID = %q, want eu. prefix", p.DefaultSmallModelID)
 	}
 }
@@ -70,11 +68,11 @@ func TestBedrockProvider_USRegion(t *testing.T) {
 	p := bedrockProvider()
 
 	for _, m := range p.Models {
-		if !hasPrefix(m.ID, "us.") && !hasPrefix(m.ID, "global.") {
-			t.Errorf("unexpected model %q for us-east-1 (want us. or global.)", m.ID)
+		if !strings.HasPrefix(m.ID, "us.") && !strings.HasPrefix(m.ID, "global.") {
+			t.Errorf("unexpected inference profile %q for us-east-1", m.ID)
 		}
 	}
-	if !hasPrefix(p.DefaultLargeModelID, "us.") {
+	if !strings.HasPrefix(p.DefaultLargeModelID, "us.") {
 		t.Errorf("DefaultLargeModelID = %q, want us. prefix", p.DefaultLargeModelID)
 	}
 }
@@ -86,8 +84,8 @@ func TestBedrockProvider_JapanRegion(t *testing.T) {
 	p := bedrockProvider()
 
 	for _, m := range p.Models {
-		if !hasPrefix(m.ID, "jp.") && !hasPrefix(m.ID, "global.") {
-			t.Errorf("unexpected model %q for ap-northeast-1 (want jp. or global.)", m.ID)
+		if !strings.HasPrefix(m.ID, "jp.") && !strings.HasPrefix(m.ID, "global.") {
+			t.Errorf("unexpected inference profile %q for ap-northeast-1", m.ID)
 		}
 	}
 }
@@ -99,8 +97,8 @@ func TestBedrockProvider_AustraliaRegion(t *testing.T) {
 	p := bedrockProvider()
 
 	for _, m := range p.Models {
-		if !hasPrefix(m.ID, "au.") && !hasPrefix(m.ID, "global.") {
-			t.Errorf("unexpected model %q for ap-southeast-2 (want au. or global.)", m.ID)
+		if !strings.HasPrefix(m.ID, "au.") && !strings.HasPrefix(m.ID, "global.") {
+			t.Errorf("unexpected inference profile %q for ap-southeast-2", m.ID)
 		}
 	}
 }
@@ -112,8 +110,8 @@ func TestBedrockProvider_APACRegion(t *testing.T) {
 	p := bedrockProvider()
 
 	for _, m := range p.Models {
-		if !hasPrefix(m.ID, "apac.") && !hasPrefix(m.ID, "global.") {
-			t.Errorf("unexpected model %q for ap-southeast-1 (want apac. or global.)", m.ID)
+		if !strings.HasPrefix(m.ID, "apac.") && !strings.HasPrefix(m.ID, "global.") {
+			t.Errorf("unexpected inference profile %q for ap-southeast-1", m.ID)
 		}
 	}
 }
@@ -125,8 +123,21 @@ func TestBedrockProvider_CanadaRegion(t *testing.T) {
 	p := bedrockProvider()
 
 	for _, m := range p.Models {
-		if !hasPrefix(m.ID, "us.") && !hasPrefix(m.ID, "global.") {
-			t.Errorf("unexpected model %q for ca-central-1 (want us. or global.)", m.ID)
+		if !strings.HasPrefix(m.ID, "us.") && !strings.HasPrefix(m.ID, "global.") {
+			t.Errorf("unexpected inference profile %q for ca-central-1", m.ID)
+		}
+	}
+}
+
+func TestBedrockProvider_UnknownRegionFallsBackToGlobal(t *testing.T) {
+	t.Setenv("AWS_REGION", "sa-east-1")
+	t.Setenv("AWS_DEFAULT_REGION", "")
+
+	p := bedrockProvider()
+
+	for _, m := range p.Models {
+		if !strings.HasPrefix(m.ID, "global.") {
+			t.Errorf("expected global. fallback for sa-east-1, got %q", m.ID)
 		}
 	}
 }
@@ -159,8 +170,4 @@ func TestBedrockRegionPrefix(t *testing.T) {
 			}
 		})
 	}
-}
-
-func hasPrefix(s, prefix string) bool {
-	return len(s) >= len(prefix) && s[:len(prefix)] == prefix
 }

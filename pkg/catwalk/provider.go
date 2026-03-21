@@ -89,6 +89,11 @@ type Model struct {
 	DefaultReasoningEffort string       `json:"default_reasoning_effort,omitempty"`
 	SupportsImages         bool         `json:"supports_attachments"`
 	Options                ModelOptions `json:"options"`
+	// Regions lists the inference profile IDs available for this model,
+	// keyed by region prefix (e.g. "us.", "eu.", "global."). Used by
+	// providers that require region-specific model identifiers, such as
+	// AWS Bedrock cross-region inference profiles.
+	Regions                map[string]string `json:"regions,omitempty"`
 }
 
 // PrefixModelIDs prepends prefix to every model ID in the provider as well

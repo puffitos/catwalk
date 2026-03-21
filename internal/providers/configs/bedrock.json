@@ -4,12 +4,12 @@
   "type": "bedrock",
   "api_key": "",
   "api_endpoint": "",
-  "default_large_model_id": "global.anthropic.claude-sonnet-4-6",
-  "default_small_model_id": "global.anthropic.claude-haiku-4-5-20251001-v1:0",
+  "default_large_model_id": "anthropic.claude-sonnet-4-6",
+  "default_small_model_id": "anthropic.claude-haiku-4-5-20251001-v1:0",
   "models": [
     {
-      "id": "global.anthropic.claude-sonnet-4-6",
-      "name": "AWS Claude Sonnet 4.6 (Global)",
+      "id": "anthropic.claude-sonnet-4-6",
+      "name": "AWS Claude Sonnet 4.6",
       "cost_per_1m_in": 3,
       "cost_per_1m_out": 15,
       "cost_per_1m_in_cached": 3.75,
@@ -17,59 +17,18 @@
       "context_window": 1000000,
       "default_max_tokens": 64000,
       "can_reason": true,
-      "supports_attachments": true
+      "supports_attachments": true,
+      "regions": {
+        "us.": "us.anthropic.claude-sonnet-4-6",
+        "eu.": "eu.anthropic.claude-sonnet-4-6",
+        "jp.": "jp.anthropic.claude-sonnet-4-6",
+        "au.": "au.anthropic.claude-sonnet-4-6",
+        "global.": "global.anthropic.claude-sonnet-4-6"
+      }
     },
     {
-      "id": "us.anthropic.claude-sonnet-4-6",
-      "name": "AWS Claude Sonnet 4.6 (US)",
-      "cost_per_1m_in": 3,
-      "cost_per_1m_out": 15,
-      "cost_per_1m_in_cached": 3.75,
-      "cost_per_1m_out_cached": 0.3,
-      "context_window": 1000000,
-      "default_max_tokens": 64000,
-      "can_reason": true,
-      "supports_attachments": true
-    },
-    {
-      "id": "eu.anthropic.claude-sonnet-4-6",
-      "name": "AWS Claude Sonnet 4.6 (EU)",
-      "cost_per_1m_in": 3,
-      "cost_per_1m_out": 15,
-      "cost_per_1m_in_cached": 3.75,
-      "cost_per_1m_out_cached": 0.3,
-      "context_window": 1000000,
-      "default_max_tokens": 64000,
-      "can_reason": true,
-      "supports_attachments": true
-    },
-    {
-      "id": "jp.anthropic.claude-sonnet-4-6",
-      "name": "AWS Claude Sonnet 4.6 (JP)",
-      "cost_per_1m_in": 3,
-      "cost_per_1m_out": 15,
-      "cost_per_1m_in_cached": 3.75,
-      "cost_per_1m_out_cached": 0.3,
-      "context_window": 1000000,
-      "default_max_tokens": 64000,
-      "can_reason": true,
-      "supports_attachments": true
-    },
-    {
-      "id": "au.anthropic.claude-sonnet-4-6",
-      "name": "AWS Claude Sonnet 4.6 (AU)",
-      "cost_per_1m_in": 3,
-      "cost_per_1m_out": 15,
-      "cost_per_1m_in_cached": 3.75,
-      "cost_per_1m_out_cached": 0.3,
-      "context_window": 1000000,
-      "default_max_tokens": 64000,
-      "can_reason": true,
-      "supports_attachments": true
-    },
-    {
-      "id": "global.anthropic.claude-sonnet-4-5-20250929-v1:0",
-      "name": "AWS Claude Sonnet 4.5 (Global)",
+      "id": "anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "name": "AWS Claude Sonnet 4.5",
       "cost_per_1m_in": 3,
       "cost_per_1m_out": 15,
       "cost_per_1m_in_cached": 3.75,
@@ -77,71 +36,19 @@
       "context_window": 200000,
       "default_max_tokens": 64000,
       "can_reason": true,
-      "supports_attachments": true
+      "supports_attachments": true,
+      "regions": {
+        "us.": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+        "eu.": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+        "jp.": "jp.anthropic.claude-sonnet-4-5-20250929-v1:0",
+        "au.": "au.anthropic.claude-sonnet-4-5-20250929-v1:0",
+        "apac.": "apac.anthropic.claude-sonnet-4-5-20250929-v1:0",
+        "global.": "global.anthropic.claude-sonnet-4-5-20250929-v1:0"
+      }
     },
     {
-      "id": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
-      "name": "AWS Claude Sonnet 4.5 (US)",
-      "cost_per_1m_in": 3,
-      "cost_per_1m_out": 15,
-      "cost_per_1m_in_cached": 3.75,
-      "cost_per_1m_out_cached": 0.3,
-      "context_window": 200000,
-      "default_max_tokens": 64000,
-      "can_reason": true,
-      "supports_attachments": true
-    },
-    {
-      "id": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
-      "name": "AWS Claude Sonnet 4.5 (EU)",
-      "cost_per_1m_in": 3,
-      "cost_per_1m_out": 15,
-      "cost_per_1m_in_cached": 3.75,
-      "cost_per_1m_out_cached": 0.3,
-      "context_window": 200000,
-      "default_max_tokens": 64000,
-      "can_reason": true,
-      "supports_attachments": true
-    },
-    {
-      "id": "jp.anthropic.claude-sonnet-4-5-20250929-v1:0",
-      "name": "AWS Claude Sonnet 4.5 (JP)",
-      "cost_per_1m_in": 3,
-      "cost_per_1m_out": 15,
-      "cost_per_1m_in_cached": 3.75,
-      "cost_per_1m_out_cached": 0.3,
-      "context_window": 200000,
-      "default_max_tokens": 64000,
-      "can_reason": true,
-      "supports_attachments": true
-    },
-    {
-      "id": "au.anthropic.claude-sonnet-4-5-20250929-v1:0",
-      "name": "AWS Claude Sonnet 4.5 (AU)",
-      "cost_per_1m_in": 3,
-      "cost_per_1m_out": 15,
-      "cost_per_1m_in_cached": 3.75,
-      "cost_per_1m_out_cached": 0.3,
-      "context_window": 200000,
-      "default_max_tokens": 64000,
-      "can_reason": true,
-      "supports_attachments": true
-    },
-    {
-      "id": "apac.anthropic.claude-sonnet-4-5-20250929-v1:0",
-      "name": "AWS Claude Sonnet 4.5 (APAC)",
-      "cost_per_1m_in": 3,
-      "cost_per_1m_out": 15,
-      "cost_per_1m_in_cached": 3.75,
-      "cost_per_1m_out_cached": 0.3,
-      "context_window": 200000,
-      "default_max_tokens": 64000,
-      "can_reason": true,
-      "supports_attachments": true
-    },
-    {
-      "id": "global.anthropic.claude-haiku-4-5-20251001-v1:0",
-      "name": "AWS Claude Haiku 4.5 (Global)",
+      "id": "anthropic.claude-haiku-4-5-20251001-v1:0",
+      "name": "AWS Claude Haiku 4.5",
       "cost_per_1m_in": 0.8,
       "cost_per_1m_out": 4,
       "cost_per_1m_in_cached": 1,
@@ -149,59 +56,18 @@
       "context_window": 200000,
       "default_max_tokens": 64000,
       "can_reason": false,
-      "supports_attachments": true
+      "supports_attachments": true,
+      "regions": {
+        "us.": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+        "eu.": "eu.anthropic.claude-haiku-4-5-20251001-v1:0",
+        "jp.": "jp.anthropic.claude-haiku-4-5-20251001-v1:0",
+        "au.": "au.anthropic.claude-haiku-4-5-20251001-v1:0",
+        "global.": "global.anthropic.claude-haiku-4-5-20251001-v1:0"
+      }
     },
     {
-      "id": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
-      "name": "AWS Claude Haiku 4.5 (US)",
-      "cost_per_1m_in": 0.8,
-      "cost_per_1m_out": 4,
-      "cost_per_1m_in_cached": 1,
-      "cost_per_1m_out_cached": 0.08,
-      "context_window": 200000,
-      "default_max_tokens": 64000,
-      "can_reason": false,
-      "supports_attachments": true
-    },
-    {
-      "id": "eu.anthropic.claude-haiku-4-5-20251001-v1:0",
-      "name": "AWS Claude Haiku 4.5 (EU)",
-      "cost_per_1m_in": 0.8,
-      "cost_per_1m_out": 4,
-      "cost_per_1m_in_cached": 1,
-      "cost_per_1m_out_cached": 0.08,
-      "context_window": 200000,
-      "default_max_tokens": 64000,
-      "can_reason": false,
-      "supports_attachments": true
-    },
-    {
-      "id": "jp.anthropic.claude-haiku-4-5-20251001-v1:0",
-      "name": "AWS Claude Haiku 4.5 (JP)",
-      "cost_per_1m_in": 0.8,
-      "cost_per_1m_out": 4,
-      "cost_per_1m_in_cached": 1,
-      "cost_per_1m_out_cached": 0.08,
-      "context_window": 200000,
-      "default_max_tokens": 64000,
-      "can_reason": false,
-      "supports_attachments": true
-    },
-    {
-      "id": "au.anthropic.claude-haiku-4-5-20251001-v1:0",
-      "name": "AWS Claude Haiku 4.5 (AU)",
-      "cost_per_1m_in": 0.8,
-      "cost_per_1m_out": 4,
-      "cost_per_1m_in_cached": 1,
-      "cost_per_1m_out_cached": 0.08,
-      "context_window": 200000,
-      "default_max_tokens": 64000,
-      "can_reason": false,
-      "supports_attachments": true
-    },
-    {
-      "id": "global.anthropic.claude-opus-4-6-v1",
-      "name": "AWS Claude Opus 4.6 (Global)",
+      "id": "anthropic.claude-opus-4-6-v1",
+      "name": "AWS Claude Opus 4.6",
       "cost_per_1m_in": 5,
       "cost_per_1m_out": 25,
       "cost_per_1m_in_cached": 6.25,
@@ -209,47 +75,17 @@
       "context_window": 1000000,
       "default_max_tokens": 126000,
       "can_reason": true,
-      "supports_attachments": true
+      "supports_attachments": true,
+      "regions": {
+        "us.": "us.anthropic.claude-opus-4-6-v1",
+        "eu.": "eu.anthropic.claude-opus-4-6-v1",
+        "au.": "au.anthropic.claude-opus-4-6-v1",
+        "global.": "global.anthropic.claude-opus-4-6-v1"
+      }
     },
     {
-      "id": "us.anthropic.claude-opus-4-6-v1",
-      "name": "AWS Claude Opus 4.6 (US)",
-      "cost_per_1m_in": 5,
-      "cost_per_1m_out": 25,
-      "cost_per_1m_in_cached": 6.25,
-      "cost_per_1m_out_cached": 0.5,
-      "context_window": 1000000,
-      "default_max_tokens": 126000,
-      "can_reason": true,
-      "supports_attachments": true
-    },
-    {
-      "id": "eu.anthropic.claude-opus-4-6-v1",
-      "name": "AWS Claude Opus 4.6 (EU)",
-      "cost_per_1m_in": 5,
-      "cost_per_1m_out": 25,
-      "cost_per_1m_in_cached": 6.25,
-      "cost_per_1m_out_cached": 0.5,
-      "context_window": 1000000,
-      "default_max_tokens": 126000,
-      "can_reason": true,
-      "supports_attachments": true
-    },
-    {
-      "id": "au.anthropic.claude-opus-4-6-v1",
-      "name": "AWS Claude Opus 4.6 (AU)",
-      "cost_per_1m_in": 5,
-      "cost_per_1m_out": 25,
-      "cost_per_1m_in_cached": 6.25,
-      "cost_per_1m_out_cached": 0.5,
-      "context_window": 1000000,
-      "default_max_tokens": 126000,
-      "can_reason": true,
-      "supports_attachments": true
-    },
-    {
-      "id": "global.anthropic.claude-opus-4-5-20251101-v1:0",
-      "name": "AWS Claude Opus 4.5 (Global)",
+      "id": "anthropic.claude-opus-4-5-20251101-v1:0",
+      "name": "AWS Claude Opus 4.5",
       "cost_per_1m_in": 5,
       "cost_per_1m_out": 25,
       "cost_per_1m_in_cached": 6.25,
@@ -257,35 +93,16 @@
       "context_window": 200000,
       "default_max_tokens": 64000,
       "can_reason": true,
-      "supports_attachments": true
+      "supports_attachments": true,
+      "regions": {
+        "us.": "us.anthropic.claude-opus-4-5-20251101-v1:0",
+        "eu.": "eu.anthropic.claude-opus-4-5-20251101-v1:0",
+        "global.": "global.anthropic.claude-opus-4-5-20251101-v1:0"
+      }
     },
     {
-      "id": "us.anthropic.claude-opus-4-5-20251101-v1:0",
-      "name": "AWS Claude Opus 4.5 (US)",
-      "cost_per_1m_in": 5,
-      "cost_per_1m_out": 25,
-      "cost_per_1m_in_cached": 6.25,
-      "cost_per_1m_out_cached": 0.5,
-      "context_window": 200000,
-      "default_max_tokens": 64000,
-      "can_reason": true,
-      "supports_attachments": true
-    },
-    {
-      "id": "eu.anthropic.claude-opus-4-5-20251101-v1:0",
-      "name": "AWS Claude Opus 4.5 (EU)",
-      "cost_per_1m_in": 5,
-      "cost_per_1m_out": 25,
-      "cost_per_1m_in_cached": 6.25,
-      "cost_per_1m_out_cached": 0.5,
-      "context_window": 200000,
-      "default_max_tokens": 64000,
-      "can_reason": true,
-      "supports_attachments": true
-    },
-    {
-      "id": "global.anthropic.claude-sonnet-4-20250514-v1:0",
-      "name": "AWS Claude Sonnet 4 (Global)",
+      "id": "anthropic.claude-sonnet-4-20250514-v1:0",
+      "name": "AWS Claude Sonnet 4",
       "cost_per_1m_in": 3,
       "cost_per_1m_out": 15,
       "cost_per_1m_in_cached": 3.75,
@@ -293,47 +110,17 @@
       "context_window": 200000,
       "default_max_tokens": 64000,
       "can_reason": true,
-      "supports_attachments": true
+      "supports_attachments": true,
+      "regions": {
+        "us.": "us.anthropic.claude-sonnet-4-20250514-v1:0",
+        "eu.": "eu.anthropic.claude-sonnet-4-20250514-v1:0",
+        "apac.": "apac.anthropic.claude-sonnet-4-20250514-v1:0",
+        "global.": "global.anthropic.claude-sonnet-4-20250514-v1:0"
+      }
     },
     {
-      "id": "us.anthropic.claude-sonnet-4-20250514-v1:0",
-      "name": "AWS Claude Sonnet 4 (US)",
-      "cost_per_1m_in": 3,
-      "cost_per_1m_out": 15,
-      "cost_per_1m_in_cached": 3.75,
-      "cost_per_1m_out_cached": 0.3,
-      "context_window": 200000,
-      "default_max_tokens": 64000,
-      "can_reason": true,
-      "supports_attachments": true
-    },
-    {
-      "id": "eu.anthropic.claude-sonnet-4-20250514-v1:0",
-      "name": "AWS Claude Sonnet 4 (EU)",
-      "cost_per_1m_in": 3,
-      "cost_per_1m_out": 15,
-      "cost_per_1m_in_cached": 3.75,
-      "cost_per_1m_out_cached": 0.3,
-      "context_window": 200000,
-      "default_max_tokens": 64000,
-      "can_reason": true,
-      "supports_attachments": true
-    },
-    {
-      "id": "apac.anthropic.claude-sonnet-4-20250514-v1:0",
-      "name": "AWS Claude Sonnet 4 (APAC)",
-      "cost_per_1m_in": 3,
-      "cost_per_1m_out": 15,
-      "cost_per_1m_in_cached": 3.75,
-      "cost_per_1m_out_cached": 0.3,
-      "context_window": 200000,
-      "default_max_tokens": 64000,
-      "can_reason": true,
-      "supports_attachments": true
-    },
-    {
-      "id": "us.anthropic.claude-opus-4-20250514-v1:0",
-      "name": "AWS Claude Opus 4 (US)",
+      "id": "anthropic.claude-opus-4-20250514-v1:0",
+      "name": "AWS Claude Opus 4",
       "cost_per_1m_in": 15,
       "cost_per_1m_out": 75,
       "cost_per_1m_in_cached": 18.75,
@@ -341,11 +128,14 @@
       "context_window": 200000,
       "default_max_tokens": 32000,
       "can_reason": true,
-      "supports_attachments": true
+      "supports_attachments": true,
+      "regions": {
+        "us.": "us.anthropic.claude-opus-4-20250514-v1:0"
+      }
     },
     {
-      "id": "us.anthropic.claude-opus-4-1-20250805-v1:0",
-      "name": "AWS Claude Opus 4.1 (US)",
+      "id": "anthropic.claude-opus-4-1-20250805-v1:0",
+      "name": "AWS Claude Opus 4.1",
       "cost_per_1m_in": 15,
       "cost_per_1m_out": 75,
       "cost_per_1m_in_cached": 18.75,
@@ -353,7 +143,10 @@
       "context_window": 200000,
       "default_max_tokens": 32000,
       "can_reason": true,
-      "supports_attachments": true
+      "supports_attachments": true,
+      "regions": {
+        "us.": "us.anthropic.claude-opus-4-1-20250805-v1:0"
+      }
     }
   ]
 }
