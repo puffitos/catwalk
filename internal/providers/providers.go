@@ -173,20 +173,20 @@ func bedrockProvider() catwalk.Provider {
 	}
 
 	prefix := bedrockRegionPrefix(region)
+	defaultPrefix := "global"
 
-	chosen := "global"
 	var resolved []catwalk.Model
 	for _, m := range p.Models {
 		if len(m.Regions) == 0 {
 			resolved = append(resolved, m)
 			continue
 		}
+		modelPrefix := defaultPrefix
 		if prefix != "" && slices.Contains(m.Regions, prefix) {
-			chosen = prefix
+			modelPrefix = prefix
 		}
-		m.ID = chosen + "." + m.ID
+		m.ID = modelPrefix + "." + m.ID
 		resolved = append(resolved, m)
-		chosen = "global"
 	}
 	p.Models = resolved
 
