@@ -3,6 +3,7 @@ package providers
 
 import (
 	_ "embed"
+	"cmp"
 	"encoding/json"
 	"log"
 	"os"
@@ -196,10 +197,7 @@ func bedrockProvider() catwalk.Provider {
 	p.Models = resolved
 
 	// Apply the same prefix logic to the default model references.
-	chosen := "global"
-	if prefix != "" {
-		chosen = prefix
-	}
+	chosen := cmp.Or(prefix, "global")
 	p.DefaultLargeModelID = chosen + "." + p.DefaultLargeModelID
 	p.DefaultSmallModelID = chosen + "." + p.DefaultSmallModelID
 
