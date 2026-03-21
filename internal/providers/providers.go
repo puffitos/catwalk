@@ -182,7 +182,7 @@ func bedrockProvider() catwalk.Provider {
 			continue
 		}
 		modelPrefix := defaultPrefix
-		if prefix != "" && slices.Contains(m.Regions, prefix) {
+		if slices.Contains(m.Regions, prefix) {
 			modelPrefix = prefix
 		}
 		m.ID = modelPrefix + "." + m.ID
