@@ -18,13 +18,7 @@
       "default_max_tokens": 64000,
       "can_reason": true,
       "supports_attachments": true,
-      "regions": {
-        "us.": "us.anthropic.claude-sonnet-4-6",
-        "eu.": "eu.anthropic.claude-sonnet-4-6",
-        "jp.": "jp.anthropic.claude-sonnet-4-6",
-        "au.": "au.anthropic.claude-sonnet-4-6",
-        "global.": "global.anthropic.claude-sonnet-4-6"
-      }
+      "regions": ["us.", "eu.", "jp.", "au.", "global."]
     },
     {
       "id": "anthropic.claude-sonnet-4-5-20250929-v1:0",
@@ -37,14 +31,7 @@
       "default_max_tokens": 64000,
       "can_reason": true,
       "supports_attachments": true,
-      "regions": {
-        "us.": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
-        "eu.": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
-        "jp.": "jp.anthropic.claude-sonnet-4-5-20250929-v1:0",
-        "au.": "au.anthropic.claude-sonnet-4-5-20250929-v1:0",
-        "apac.": "apac.anthropic.claude-sonnet-4-5-20250929-v1:0",
-        "global.": "global.anthropic.claude-sonnet-4-5-20250929-v1:0"
-      }
+      "regions": ["us.", "eu.", "jp.", "au.", "apac.", "global."]
     },
     {
       "id": "anthropic.claude-haiku-4-5-20251001-v1:0",
@@ -57,13 +44,7 @@
       "default_max_tokens": 64000,
       "can_reason": false,
       "supports_attachments": true,
-      "regions": {
-        "us.": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
-        "eu.": "eu.anthropic.claude-haiku-4-5-20251001-v1:0",
-        "jp.": "jp.anthropic.claude-haiku-4-5-20251001-v1:0",
-        "au.": "au.anthropic.claude-haiku-4-5-20251001-v1:0",
-        "global.": "global.anthropic.claude-haiku-4-5-20251001-v1:0"
-      }
+      "regions": ["us.", "eu.", "jp.", "au.", "global."]
     },
     {
       "id": "anthropic.claude-opus-4-6-v1",
@@ -76,12 +57,7 @@
       "default_max_tokens": 126000,
       "can_reason": true,
       "supports_attachments": true,
-      "regions": {
-        "us.": "us.anthropic.claude-opus-4-6-v1",
-        "eu.": "eu.anthropic.claude-opus-4-6-v1",
-        "au.": "au.anthropic.claude-opus-4-6-v1",
-        "global.": "global.anthropic.claude-opus-4-6-v1"
-      }
+      "regions": ["us.", "eu.", "au.", "global."]
     },
     {
       "id": "anthropic.claude-opus-4-5-20251101-v1:0",
@@ -94,11 +70,7 @@
       "default_max_tokens": 64000,
       "can_reason": true,
       "supports_attachments": true,
-      "regions": {
-        "us.": "us.anthropic.claude-opus-4-5-20251101-v1:0",
-        "eu.": "eu.anthropic.claude-opus-4-5-20251101-v1:0",
-        "global.": "global.anthropic.claude-opus-4-5-20251101-v1:0"
-      }
+      "regions": ["us.", "eu.", "global."]
     },
     {
       "id": "anthropic.claude-sonnet-4-20250514-v1:0",
@@ -111,12 +83,7 @@
       "default_max_tokens": 64000,
       "can_reason": true,
       "supports_attachments": true,
-      "regions": {
-        "us.": "us.anthropic.claude-sonnet-4-20250514-v1:0",
-        "eu.": "eu.anthropic.claude-sonnet-4-20250514-v1:0",
-        "apac.": "apac.anthropic.claude-sonnet-4-20250514-v1:0",
-        "global.": "global.anthropic.claude-sonnet-4-20250514-v1:0"
-      }
+      "regions": ["us.", "eu.", "apac.", "global."]
     },
     {
       "id": "anthropic.claude-opus-4-20250514-v1:0",
@@ -129,9 +96,7 @@
       "default_max_tokens": 32000,
       "can_reason": true,
       "supports_attachments": true,
-      "regions": {
-        "us.": "us.anthropic.claude-opus-4-20250514-v1:0"
-      }
+      "regions": ["us."]
     },
     {
       "id": "anthropic.claude-opus-4-1-20250805-v1:0",
@@ -144,9 +109,7 @@
       "default_max_tokens": 32000,
       "can_reason": true,
       "supports_attachments": true,
-      "regions": {
-        "us.": "us.anthropic.claude-opus-4-1-20250805-v1:0"
-      }
+      "regions": ["us."]
     }
   ]
 }

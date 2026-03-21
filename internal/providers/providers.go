@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"log"
 	"os"
+	"slices"
 	"strings"
 
 	"charm.land/catwalk/pkg/catwalk"
@@ -181,11 +182,11 @@ func bedrockProvider() catwalk.Provider {
 			resolved = append(resolved, m)
 			continue
 		}
-		if id, ok := m.Regions[prefix]; ok && prefix != "" {
-			m.ID = id
+		if prefix != "" && slices.Contains(m.Regions, prefix) {
+			m.ID = prefix + m.ID
 			resolved = append(resolved, m)
-		} else if id, ok := m.Regions["global."]; ok {
-			m.ID = id
+		} else if slices.Contains(m.Regions, "global.") {
+			m.ID = "global." + m.ID
 			resolved = append(resolved, m)
 		}
 		// No matching region and no global profile — model not available here.
@@ -199,21 +200,12 @@ func bedrockProvider() catwalk.Provider {
 	return p
 }
 
-// resolvedID returns the resolved inference profile ID for the given bare
-// model ID by finding the model in the list and reading its Regions map.
+// resolvedID finds the resolved inference profile ID for the given bare model
+// ID by scanning the resolved model list for an ID that ends with the bare ID.
 func resolvedID(models []catwalk.Model, bareID, prefix string) string {
-	// Find the model whose original bare ID matches — after resolution the
-	// model's ID field has been replaced, so we match via the Regions map.
 	for _, m := range models {
-		if _, hasRegional := m.Regions[prefix]; hasRegional {
-			if m.Regions[prefix] == prefix+bareID {
-				return m.ID
-			}
-		}
-		if globalID, hasGlobal := m.Regions["global."]; hasGlobal {
-			if globalID == "global."+bareID {
-				return m.ID
-			}
+		if m.ID == prefix+bareID || m.ID == "global."+bareID {
+			return m.ID
 		}
 	}
 	if len(models) > 0 {
