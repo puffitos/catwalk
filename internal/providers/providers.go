@@ -166,7 +166,6 @@ func azureProvider() catwalk.Provider {
 
 func bedrockProvider() catwalk.Provider {
 	p := loadProviderFromConfig(bedrockConfig)
-	assertGlobalRegion(p.Models)
 
 	region := os.Getenv("AWS_REGION")
 	if region == "" {
@@ -174,18 +173,22 @@ func bedrockProvider() catwalk.Provider {
 	}
 
 	prefix := bedrockRegionPrefix(region)
-	defaultPrefix := "global"
 	origLarge := p.DefaultLargeModelID
 	origSmall := p.DefaultSmallModelID
 
 	resolved := make([]catwalk.Model, 0, len(p.Models))
 	for _, m := range p.Models {
 		id := m.ID
-		modelPrefix := defaultPrefix
-		if slices.Contains(m.Regions, prefix) {
-			modelPrefix = prefix
+
+		switch {
+		case slices.Contains(m.Regions, prefix):
+			m.ID = prefix + "." + m.ID
+		case slices.Contains(m.Regions, "global"):
+			m.ID = "global." + m.ID
+		default:
+			continue
 		}
-		m.ID = modelPrefix + "." + m.ID
+
 		if id == origLarge {
 			p.DefaultLargeModelID = m.ID
 		}
@@ -197,15 +200,6 @@ func bedrockProvider() catwalk.Provider {
 	p.Models = resolved
 
 	return p
-}
-
-// assertGlobalRegion ensures every model has "global" in its regions list.
-func assertGlobalRegion(models []catwalk.Model) {
-	for i, m := range models {
-		if !slices.Contains(m.Regions, "global") {
-			models[i].Regions = append(m.Regions, "global")
-		}
-	}
 }
 
 // bedrockRegionPrefix maps an AWS region to the inference profile prefix used

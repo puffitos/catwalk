@@ -24,20 +24,23 @@ func TestValidDefaultModels(t *testing.T) {
 }
 
 func TestBedrockProvider(t *testing.T) {
+	totalModels := len(loadProviderFromConfig(bedrockConfig).Models)
+
 	tests := []struct {
 		name           string
 		region         string
 		wantPrefix     string
 		wantDefaultPfx string
+		wantModels     int
 	}{
-		{"no region falls back to global", "", "global.", "global."},
-		{"unknown region falls back to global", "sa-east-1", "global.", "global."},
-		{"eu-central-1", "eu-central-1", "eu.", "eu."},
-		{"us-east-1", "us-east-1", "us.", "us."},
-		{"ca-central-1 maps to us", "ca-central-1", "us.", "us."},
-		{"ap-northeast-1 maps to jp", "ap-northeast-1", "jp.", "jp."},
-		{"ap-southeast-2 maps to au", "ap-southeast-2", "au.", "au."},
-		{"ap-southeast-1 maps to apac", "ap-southeast-1", "apac.", "global."},
+		{"no region falls back to global", "", "global.", "global.", totalModels - 2},
+		{"unknown region falls back to global", "sa-east-1", "global.", "global.", totalModels - 2},
+		{"eu-central-1", "eu-central-1", "eu.", "eu.", totalModels - 2},
+		{"us-east-1", "us-east-1", "us.", "us.", totalModels},
+		{"ca-central-1 maps to us", "ca-central-1", "us.", "us.", totalModels},
+		{"ap-northeast-1 maps to jp", "ap-northeast-1", "jp.", "jp.", totalModels - 2},
+		{"ap-southeast-2 maps to au", "ap-southeast-2", "au.", "au.", totalModels - 2},
+		{"ap-southeast-1 maps to apac", "ap-southeast-1", "apac.", "global.", totalModels - 2},
 	}
 
 	for _, tt := range tests {
@@ -46,6 +49,10 @@ func TestBedrockProvider(t *testing.T) {
 			t.Setenv("AWS_DEFAULT_REGION", "")
 
 			p := bedrockProvider()
+
+			if len(p.Models) != tt.wantModels {
+				t.Errorf("got %d models, want %d", len(p.Models), tt.wantModels)
+			}
 
 			// All model IDs must carry the expected prefix or global.
 			for _, m := range p.Models {
@@ -74,6 +81,19 @@ func TestBedrockProvider(t *testing.T) {
 				t.Errorf("DefaultSmallModelID %q not found in model list", p.DefaultSmallModelID)
 			}
 		})
+	}
+}
+
+// TestBedrockConfigRegions asserts that regions for the inference
+// profile mapping are configured in the bedrock configuration file
+func TestBedrockConfigRegions(t *testing.T) {
+	t.Parallel()
+
+	p := loadProviderFromConfig(bedrockConfig)
+	for _, m := range p.Models {
+		if len(m.Regions) == 0 {
+			t.Errorf("model %q has no regions configured, at least one must be defined.", m.ID)
+		}
 	}
 }
 
