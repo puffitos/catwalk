@@ -4,6 +4,7 @@ package providers
 import (
 	_ "embed"
 	"encoding/json"
+	"fmt"
 	"log"
 	"os"
 	"slices"
@@ -236,7 +237,7 @@ func loadBedrockRegionsByModelID() (map[string][]string, error) {
 	}
 
 	if err := json.Unmarshal(bedrockConfig, &config); err != nil {
-		return nil, err
+		return nil, fmt.Errorf("unmarshal bedrock config: %w", err)
 	}
 
 	regionsByModelID := make(map[string][]string, len(config.Models))
