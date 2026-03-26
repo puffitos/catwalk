@@ -40,7 +40,7 @@ func TestBedrockProvider(t *testing.T) {
 		{"ca-central-1 maps to us", "ca-central-1", "us.", "us.", totalModels},
 		{"ap-northeast-1 maps to jp", "ap-northeast-1", "jp.", "jp.", totalModels - 2},
 		{"ap-southeast-2 maps to au", "ap-southeast-2", "au.", "au.", totalModels - 2},
-		{"ap-southeast-1 maps to apac", "ap-southeast-1", "apac.", "global.", totalModels - 2},
+		{"ap-southeast-1 falls back to global", "ap-southeast-1", "global.", "global.", totalModels - 2},
 	}
 
 	for _, tt := range tests {
@@ -109,9 +109,9 @@ func TestBedrockRegionPrefix(t *testing.T) {
 		{"eu-west-1", "eu"},
 		{"ap-northeast-1", "jp"},
 		{"ap-southeast-2", "au"},
-		{"ap-southeast-1", "apac"},
-		{"ap-northeast-2", "apac"},
-		{"ap-south-1", "apac"},
+		{"ap-southeast-1", ""},
+		{"ap-northeast-2", ""},
+		{"ap-south-1", ""},
 		{"sa-east-1", ""},
 		{"", ""},
 		{"unknown-region", ""},

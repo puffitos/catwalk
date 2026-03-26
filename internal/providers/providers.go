@@ -215,8 +215,6 @@ func bedrockRegionPrefix(region string) string {
 		return "jp"
 	case region == "ap-southeast-2":
 		return "au"
-	case strings.HasPrefix(region, "ap-"):
-		return "apac"
 	default:
 		return ""
 	}
