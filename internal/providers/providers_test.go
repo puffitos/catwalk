@@ -29,24 +29,26 @@ func TestBedrockProvider(t *testing.T) {
 	tests := []struct {
 		name           string
 		region         string
+		defaultRegion  string
 		wantPrefix     string
 		wantDefaultPfx string
 		wantModels     int
 	}{
-		{"no region falls back to global", "", "global.", "global.", totalModels - 2},
-		{"unknown region falls back to global", "sa-east-1", "global.", "global.", totalModels - 2},
-		{"eu-central-1", "eu-central-1", "eu.", "eu.", totalModels - 2},
-		{"us-east-1", "us-east-1", "us.", "us.", totalModels},
-		{"ca-central-1 maps to us", "ca-central-1", "us.", "us.", totalModels},
-		{"ap-northeast-1 maps to jp", "ap-northeast-1", "jp.", "jp.", totalModels - 2},
-		{"ap-southeast-2 maps to au", "ap-southeast-2", "au.", "au.", totalModels - 2},
-		{"ap-southeast-1 falls back to global", "ap-southeast-1", "global.", "global.", totalModels - 2},
+		{"no region falls back to global", "", "", "global.", "global.", totalModels - 2},
+		{"uses AWS_DEFAULT_REGION when AWS_REGION is unset", "", "eu-central-1", "eu.", "eu.", totalModels - 2},
+		{"unknown region falls back to global", "sa-east-1", "", "global.", "global.", totalModels - 2},
+		{"eu-central-1", "eu-central-1", "", "eu.", "eu.", totalModels - 2},
+		{"us-east-1", "us-east-1", "", "us.", "us.", totalModels},
+		{"ca-central-1 maps to us", "ca-central-1", "", "us.", "us.", totalModels},
+		{"ap-northeast-1 maps to jp", "ap-northeast-1", "", "jp.", "jp.", totalModels - 2},
+		{"ap-southeast-2 maps to au", "ap-southeast-2", "", "au.", "au.", totalModels - 2},
+		{"ap-southeast-1 falls back to global", "ap-southeast-1", "", "global.", "global.", totalModels - 2},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Setenv("AWS_REGION", tt.region)
-			t.Setenv("AWS_DEFAULT_REGION", "")
+			t.Setenv("AWS_DEFAULT_REGION", tt.defaultRegion)
 
 			p := bedrockProvider()
 
@@ -89,10 +91,14 @@ func TestBedrockProvider(t *testing.T) {
 func TestBedrockConfigRegions(t *testing.T) {
 	t.Parallel()
 
-	p := loadProviderFromConfig(bedrockConfig)
-	for _, m := range p.Models {
-		if len(m.Regions) == 0 {
-			t.Errorf("model %q has no regions configured, at least one must be defined.", m.ID)
+	regionsByModelID, err := loadBedrockRegionsByModelID()
+	if err != nil {
+		t.Fatalf("failed to load bedrock regions: %v", err)
+	}
+
+	for modelID, regions := range regionsByModelID {
+		if len(regions) == 0 {
+			t.Errorf("model %q has no regions configured, at least one must be defined.", modelID)
 		}
 	}
 }
