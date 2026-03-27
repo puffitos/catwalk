@@ -4,6 +4,7 @@ package providers
 import (
 	_ "embed"
 	"encoding/json"
+	"fmt"
 	"log"
 	"os"
 	"slices"
@@ -172,6 +173,12 @@ func bedrockProvider() catwalk.Provider {
 		region = os.Getenv("AWS_DEFAULT_REGION")
 	}
 
+	regionsByModelID, err := loadBedrockRegionsByModelID()
+	if err != nil {
+		log.Printf("Error loading bedrock regions: %v", err)
+		return catwalk.Provider{}
+	}
+
 	prefix := bedrockRegionPrefix(region)
 	origLarge := p.DefaultLargeModelID
 	origSmall := p.DefaultSmallModelID
@@ -179,11 +186,12 @@ func bedrockProvider() catwalk.Provider {
 	resolved := make([]catwalk.Model, 0, len(p.Models))
 	for _, m := range p.Models {
 		id := m.ID
+		regions := regionsByModelID[id]
 
 		switch {
-		case slices.Contains(m.Regions, prefix):
+		case slices.Contains(regions, prefix):
 			m.ID = prefix + "." + m.ID
-		case slices.Contains(m.Regions, "global"):
+		case slices.Contains(regions, "global"):
 			m.ID = "global." + m.ID
 		default:
 			continue
@@ -215,11 +223,28 @@ func bedrockRegionPrefix(region string) string {
 		return "jp"
 	case region == "ap-southeast-2":
 		return "au"
-	case strings.HasPrefix(region, "ap-"):
-		return "apac"
 	default:
 		return ""
 	}
+}
+
+func loadBedrockRegionsByModelID() (map[string][]string, error) {
+	var config struct {
+		Models []struct {
+			ID      string   `json:"id"`
+			Regions []string `json:"regions"`
+		} `json:"models"`
+	}
+
+	if err := json.Unmarshal(bedrockConfig, &config); err != nil {
+		return nil, fmt.Errorf("unmarshal bedrock config: %w", err)
+	}
+
+	regionsByModelID := make(map[string][]string, len(config.Models))
+	for _, model := range config.Models {
+		regionsByModelID[model.ID] = model.Regions
+	}
+	return regionsByModelID, nil
 }
 
 func vertexAIProvider() catwalk.Provider {
